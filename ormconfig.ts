@@ -7,7 +7,7 @@ export const AppDataSource = new DataSource({
   port: 5432,
   username: 'api',
   password: 'api',
-  database: 'core-db',
+  database: 'pet-store-db',
   logging: true,
   synchronize: false,
   migrationsRun: false,
