@@ -9,6 +9,7 @@ import { Repository } from 'typeorm';
 import { CreatePetDTO } from './dto/create-pet';
 import { Categories } from '../entities/category.entity';
 import { Status, StatusEnum } from '../entities/status.entity';
+import { UpdatePet } from './dto/update-pet';
 
 @Injectable()
 export class PetService {
@@ -71,25 +72,30 @@ export class PetService {
       .getMany();
   }
 
-  async updateById(payload: CreatePetDTO, petId) {
-    const pet = await this.petRepository.findOne(petId);
+  async updateById(payload: UpdatePet, petId) {
+    const pet = await this.findById(petId);
     if (!pet) {
       throw new NotFoundException('Pet not found');
     }
     const status = await this.statusRepository.findOneBy({
-      id: payload.statusId,
+      id: payload.status.id,
     });
     if (!status) {
       throw new NotFoundException('Status not found');
     }
 
     // Update pet properties
-    pet.name = payload.name;
-    pet.photoUrl = payload.photoUrl;
-    pet.statusId = status.id;
+    pet.name = payload.name || pet.name;
+    pet.photoUrl = payload.photoUrl || pet.photoUrl;
+    pet.statusId = status.id || pet.statusId;
     // Update other properties as needed
+    const newPet = await this.petRepository.save(pet);
 
-    return this.petRepository.save(pet);
+    return {
+      ...newPet,
+      status,
+      category: newPet.categoryId
+    }
   }
 
   async softDeleteById(petId: number) {

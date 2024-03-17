@@ -71,19 +71,21 @@ export class PetController {
     }));
   }
 
-  @Put('/pet/:petId')
+  @Put('/:petId')
   async updatePet(
     @Param('petId', ParseIntPipe) petId: number,
     @Body() payload,
   ) {
-    const pet = await this.petService.findById(petId);
-
-    if (!pet) {
-      throw new NotFoundException(`Not found in id=${petId}`);
-    }
-
     const updatedResult = await this.petService.updateById(payload, petId);
-    return updatedResult;
+    return {
+      data: {
+        id: updatedResult.pet_id,
+        name: updatedResult.name,
+        photoUrls: [updatedResult?.photoUrl],
+        category: updatedResult.category,
+        status: updatedResult.status
+      }
+    };
   }
 
   @Delete('/:petId')
