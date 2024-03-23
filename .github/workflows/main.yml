@@ -21,4 +21,4 @@ jobs:
       run: npm install -g apidog-cli
 
     - name: Running Test Scenario
-      run: apidog run {{API_DOG}} -r html,cli --database-connection ./database-connections.json
+      run: apidog run {{Apidog_RUN_URL}} -r html,cli --database-connection ./database-connections.json
