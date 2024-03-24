@@ -8,7 +8,7 @@ export const AppDataSource = new DataSource({
   username: 'api',
   password: 'api',
   database: 'pet-store-db',
-  logging: true,
+  logging: false,
   synchronize: false,
   migrationsRun: false,
   entities: [join(__dirname, './src/entities', '*.entity.{js,ts}')],
