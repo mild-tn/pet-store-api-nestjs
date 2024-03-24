@@ -43,7 +43,3 @@ Endpoints
 - PUT /pet/:id - Update an existing pet.
 - DELETE /pet/:id - Delete a pet by ID.
 - GET /pet?status=SOLD - Get pets by status.
-
-
-
-
